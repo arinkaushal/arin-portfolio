@@ -1,16 +1,62 @@
-# React + Vite
+# 🖥️ Portfolio Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite frontend for **Arin Kaushal's** developer portfolio.
 
-Currently, two official plugins are available:
+## ⚡ Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # production build
+npm run preview  # preview production build
+```
 
-## React Compiler
+## ✏️ Updating Content
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+All portfolio data is in one place:
 
-## Expanding the ESLint configuration
+```
+src/data/portfolio.js
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Export          | What it controls                         |
+|-----------------|------------------------------------------|
+| `personal`      | Name, bio, photo, links, contact info    |
+| `heroRoles`     | Typewriter roles in the Hero section     |
+| `heroStats`     | Stats counters (projects, years, tech)   |
+| `skills`        | Skill cards with levels & categories     |
+| `otherSkills`   | Additional skills shown as tags          |
+| `projects`      | Project cards with tech, links & period  |
+| `education`     | Education timeline                       |
+| `experience`    | Work / internship timeline               |
+| `certificates`  | Certificate list with issuer & links     |
+| `achievements`  | Achievements (optional)                  |
+| `softSkills`    | Soft skills tags in About section        |
+
+## 📬 EmailJS Setup
+
+Create a `.env` file in this directory:
+
+```env
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
+```
+
+## 📁 Static Assets
+
+Place files inside `public/`:
+
+| File         | Purpose             |
+|--------------|---------------------|
+| `img.png`    | Profile photo       |
+| `resume.pdf` | Downloadable resume |
+
+## 🛠️ Tech Stack
+
+- **React 19** + **Vite**
+- **Tailwind CSS v3**
+- **Framer Motion** (animations)
+- **Canvas API** (particle background)
+- **EmailJS** (contact form, no backend)
+- **React Hot Toast** (notifications)
