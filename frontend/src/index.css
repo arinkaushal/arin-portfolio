@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #00ff88;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00cc6a;
+  }
+
+  ::selection {
+    background: #00ff8840;
+    color: #00ff88;
+  }
+}
+
+@layer components {
+  /* Glow Button */
+  .btn-neon {
+    @apply relative px-6 py-3 border border-neon text-neon font-mono text-sm font-semibold tracking-wider uppercase
+           transition-all duration-300 cursor-pointer overflow-hidden;
+    box-shadow: 0 0 5px #00ff88, inset 0 0 5px #00ff8810;
+  }
+
+  .btn-neon::before {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: linear-gradient(135deg, #00ff8820, #00ff8810);
+  }
+
+  .btn-neon:hover::before {
+    @apply opacity-100;
+  }
+
+  .btn-neon:hover {
+    box-shadow: 0 0 15px #00ff88, 0 0 30px #00ff8860, inset 0 0 15px #00ff8820;
+    @apply text-white;
+  }
+
+  /* Filled Neon Button */
+  .btn-neon-filled {
+    @apply relative px-6 py-3 bg-neon text-black font-mono text-sm font-bold tracking-wider uppercase
+           transition-all duration-300 cursor-pointer overflow-hidden;
+    box-shadow: 0 0 10px #00ff88, 0 0 30px #00ff8860;
+  }
+
+  .btn-neon-filled:hover {
+    box-shadow: 0 0 20px #00ff88, 0 0 50px #00ff88, 0 0 80px #00ff8840;
+    @apply scale-105;
+  }
+
+  /* Glow Card */
+  .card-neon {
+    @apply relative bg-dark-card border border-dark-border rounded-lg overflow-hidden
+           transition-all duration-300;
+  }
+
+  .card-neon:hover {
+    border-color: #00ff8840;
+    box-shadow: 0 0 20px #00ff8820, 0 0 40px #00ff8810;
+    @apply -translate-y-1;
+  }
+
+  /* Section Title */
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold font-mono text-white mb-2;
+  }
+
+  .section-subtitle {
+    @apply text-neon font-mono text-sm tracking-widest uppercase mb-12;
+  }
+
+  /* Neon text glow */
+  .text-neon-glow {
+    text-shadow: 0 0 10px #00ff88, 0 0 20px #00ff8860, 0 0 40px #00ff8840;
+  }
+
+  /* Grid pattern overlay */
+  .grid-bg {
+    background-image: linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+
+  /* Neon input */
+  .input-neon {
+    @apply w-full bg-dark-muted border border-dark-border text-white placeholder-gray-600
+           px-4 py-3 font-mono text-sm outline-none transition-all duration-300 rounded-sm;
+  }
+
+  .input-neon:focus {
+    border-color: #00ff8860;
+    box-shadow: 0 0 10px #00ff8820;
+  }
+
+  /* Timeline dot */
+  .timeline-dot {
+    @apply w-4 h-4 rounded-full border-2 border-neon bg-black relative z-10 flex-shrink-0;
+    box-shadow: 0 0 8px #00ff88, 0 0 20px #00ff8840;
+  }
+}
+
+@layer utilities {
+  .glow-text {
+    text-shadow: 0 0 10px currentColor;
+  }
+
+  .border-neon-glow {
+    box-shadow: 0 0 5px #00ff88, 0 0 15px #00ff8840;
+  }
+
+  .animate-glow-pulse {
+    animation: glowPulse 2s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+}
+
+/* Keyframes */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 5px #00ff88, 0 0 20px #00ff8840; }
+  50% { box-shadow: 0 0 15px #00ff88, 0 0 40px #00ff8870, 0 0 60px #00ff8840; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes scanLine {
+  0% { top: -5%; }
+  100% { top: 105%; }
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  0%, 100% { border-color: #00ff88; }
+  50% { border-color: transparent; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
