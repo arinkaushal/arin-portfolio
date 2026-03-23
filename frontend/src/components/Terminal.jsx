@@ -28,7 +28,7 @@ const COMMANDS = {
     output: [
       { text: '> Tech Stack:', style: 'text-neon font-bold' },
       ...skills.slice(0, 8).map((s) => ({
-        text: `  ${s.name.padEnd(15)} [${'█'.repeat(Math.round(s.level / 10))}${'░'.repeat(10 - Math.round(s.level / 10))}] ${s.level}%`,
+        text: `  ${s.icon}  ${s.name.padEnd(15)}  [${s.category}]`,
         style: 'text-gray-300 font-mono',
       })),
     ],

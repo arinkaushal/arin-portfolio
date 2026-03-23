@@ -1,200 +1,180 @@
-import { motion } from 'framer-motion'
-import { useInView } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import {
   SiJavascript, SiReact, SiNodedotjs, SiMongodb, SiExpress, SiTailwindcss,
-  SiHtml5, SiPython, SiPhp, SiMysql, SiGit
+  SiHtml5, SiPython, SiMysql, SiGit, SiBootstrap, SiPostman, SiLinux,
 } from 'react-icons/si'
+import { FaJava, FaPhp, FaCss3Alt } from 'react-icons/fa'
+import { TbPlugConnected } from 'react-icons/tb'
 import { skills, otherSkills } from '../data/portfolio'
 
-// ── per-skill visual config ────────────────────────────────────────────────
-const META = {
-  'JavaScript':  { Icon: SiJavascript,  color: '#f7df1e', size: 88,  left:'7%',  top:'8%',  delay:0.0  },
-  'React.js':    { Icon: SiReact,       color: '#61dafb', size:104,  left:'28%', top:'1%',  delay:0.12 },
-  'Node.js':     { Icon: SiNodedotjs,   color: '#68a063', size: 86,  left:'53%', top:'5%',  delay:0.24 },
-  'MongoDB':     { Icon: SiMongodb,     color: '#4db33d', size: 72,  left:'74%', top:'14%', delay:0.36 },
-  'Express.js':  { Icon: SiExpress,     color: '#cccccc', size: 58,  left:'90%', top:'42%', delay:0.48 },
-  'Tailwind CSS':{ Icon: SiTailwindcss, color: '#38bdf8', size: 88,  left:'68%', top:'60%', delay:0.60 },
-  'HTML5':       { Icon: SiHtml5,       color: '#e34c26', size: 96,  left:'12%', top:'57%', delay:0.72 },
-  'CSS3':        { Icon: null,          color: '#264de4', size: 64,  left:'40%', top:'72%', delay:0.84 },
-  'Python':      { Icon: SiPython,      color: '#3572a5', size: 62,  left:'3%',  top:'38%', delay:0.96 },
-  'PHP':         { Icon: SiPhp,         color: '#8892be', size: 60,  left:'22%', top:'27%', delay:1.08 },
-  'SQL / MySQL': { Icon: SiMysql,       color: '#f29111', size: 76,  left:'46%', top:'36%', delay:1.20 },
-  'Git & GitHub':{ Icon: SiGit,         color: '#f05032', size: 74,  left:'82%', top:'75%', delay:1.32 },
+// ── Icon + colour for every skill ─────────────────────────────────────────
+const ICON_MAP = {
+  'JavaScript':   { Icon: SiJavascript,   color: '#f7df1e' },
+  'React.js':     { Icon: SiReact,        color: '#61dafb' },
+  'Node.js':      { Icon: SiNodedotjs,    color: '#68a063' },
+  'MongoDB':      { Icon: SiMongodb,      color: '#4db33d' },
+  'Express.js':   { Icon: SiExpress,      color: '#cccccc' },
+  'Tailwind CSS': { Icon: SiTailwindcss,  color: '#38bdf8' },
+  'HTML5':        { Icon: SiHtml5,        color: '#e34c26' },
+  'CSS3':         { Icon: FaCss3Alt,      color: '#264de4' },
+  'Python':       { Icon: SiPython,       color: '#3572a5' },
+  'PHP':          { Icon: FaPhp,          color: '#8892be' },
+  'SQL / MySQL':  { Icon: SiMysql,        color: '#f29111' },
+  'Git & GitHub': { Icon: SiGit,          color: '#f05032' },
+  'Java':         { Icon: FaJava,         color: '#f89820' },
+  'Bootstrap':    { Icon: SiBootstrap,    color: '#7952b3' },
+  'Postman':      { Icon: SiPostman,      color: '#ff6c37' },
+  'Unix/Linux':   { Icon: SiLinux,        color: '#f7c948' },
+  'WebSockets':   { Icon: TbPlugConnected,color: '#00ff88' },
+  // Text-based fallbacks
+  'C':            { Icon: null, emoji: 'C',   color: '#a8b9cc' },
+  'C#':           { Icon: null, emoji: 'C#',  color: '#9b4f96' },
+  'C++':          { Icon: null, emoji: 'C++', color: '#00599c' },
+  '.NET':         { Icon: null, emoji: '.N',  color: '#512bd4' },
+  'VS Code':      { Icon: null, emoji: '{}',  color: '#007acc' },
+  'MS Office':    { Icon: null, emoji: 'W',   color: '#d83b01' },
+  'React Flow':   { Icon: SiReact,        color: '#ff4785' },
+  'Gemini API':   { Icon: null, emoji: '✦',   color: '#8e75b2' },
 }
 
-// small decorative micro-dots
-const DOTS = [
-  { left:'2%',  top:'18%', s:12 }, { left:'48%', top:'18%', s:10 },
-  { left:'92%', top:'20%', s:11 }, { left:'60%', top:'46%', s:10 },
-  { left:'27%', top:'76%', s:13 }, { left:'72%', top:'86%', s:10 },
-  { left:'6%',  top:'70%', s:11 }, { left:'35%', top:'52%', s: 9 },
-  { left:'55%', top:'82%', s:10 }, { left:'18%', top:'46%', s: 9 },
+// ── Category definitions ───────────────────────────────────────────────────
+const CATEGORIES = [
+  {
+    label: 'Languages',
+    color: '#f7df1e',
+    items: [
+      ...skills.filter((s) => s.category === 'Language').map((s) => s.name),
+      'C', 'C++', 'C#', 'Java',
+    ],
+  },
+  {
+    label: 'Frontend',
+    color: '#61dafb',
+    items: [...skills.filter((s) => s.category === 'Frontend').map((s) => s.name), 'Bootstrap', 'React Flow'],
+  },
+  {
+    label: 'Backend',
+    color: '#68a063',
+    items: [...skills.filter((s) => s.category === 'Backend').map((s) => s.name), '.NET', 'WebSockets'],
+  },
+  {
+    label: 'Database',
+    color: '#4db33d',
+    items: skills.filter((s) => s.category === 'Database').map((s) => s.name),
+  },
+  {
+    label: 'Tools & DevOps',
+    color: '#f05032',
+    items: [...skills.filter((s) => s.category === 'Tools').map((s) => s.name), 'Postman', 'VS Code', 'Unix/Linux'],
+  },
+  {
+    label: 'Other',
+    color: '#8e75b2',
+    items: ['MS Office', 'Gemini API'],
+  },
 ]
 
-// float each bubble at its own rhythm
-const floatAnim = (i) => ({
-  y: [0, -(8 + (i % 4) * 5), 0],
-  x: [0, (i % 2 === 0 ? 3 : -3), 0],
-  transition: { duration: 3.6 + (i % 5) * 0.55, repeat: Infinity, ease: 'easeInOut', delay: i * 0.2 },
-})
+// ── Skill pill ─────────────────────────────────────────────────────────────
+const SkillPill = ({ name, url, index }) => {
+  const meta  = ICON_MAP[name] ?? { Icon: null, emoji: name[0], color: '#00ff88' }
+  const { Icon, emoji, color } = meta
 
-// ── Bubble component ───────────────────────────────────────────────────────
-const Bubble = ({ skill, index, inView }) => {
-  const m = META[skill.name]
-  if (!m) return null
-  const { Icon, color, size, left, top, delay } = m
-  const iconSize = size * 0.42
-
-  return (
-    <motion.a
-      href={skill.url} target="_blank" rel="noopener noreferrer" title={skill.name}
-      className="absolute group cursor-pointer select-none"
-      style={{ left, top }}
-      initial={{ opacity: 0, scale: 0, rotate: -15 }}
-      animate={inView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
-      transition={{ delay, duration: 0.55, type: 'spring', stiffness: 160, damping: 12 }}
+  const inner = (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.04, duration: 0.3 }}
+      whileHover={{ y: -3, scale: 1.06 }}
+      className="group flex items-center gap-2.5 px-4 py-2.5 border border-white/8
+                 bg-white/[0.03] hover:bg-white/[0.07] rounded-sm
+                 transition-all duration-250 cursor-pointer"
+      style={{ '--c': color }}
     >
-      <motion.div animate={floatAnim(index)} className="relative">
-
-        {/* Pulsing outer ring — always subtly glowing */}
-        <motion.div
-          className="absolute inset-0 rounded-full pointer-events-none"
-          animate={{ scale: [1, 1.15, 1], opacity: [0.25, 0.5, 0.25] }}
-          transition={{ duration: 2.5 + index * 0.3, repeat: Infinity, ease: 'easeInOut', delay: index * 0.15 }}
-          style={{ border: `1.5px solid ${color}`, borderRadius: '50%', boxShadow: `0 0 12px ${color}40` }}
-        />
-
-        {/* Hover glow blast */}
-        <div
-          className="absolute -inset-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-          style={{ background: `radial-gradient(circle, ${color}22 0%, transparent 70%)`,
-            boxShadow: `0 0 30px ${color}50, 0 0 60px ${color}20` }}
-        />
-
-        {/* Main circle */}
-        <div
-          className="relative flex items-center justify-center rounded-full transition-all duration-300
-                     group-hover:scale-115"
-          style={{
-            width: size, height: size,
-            background: `radial-gradient(circle at 35% 35%, ${color}18, ${color}06 60%, black 100%)`,
-            border: `1.5px solid ${color}35`,
-            boxShadow: `0 0 0 0.5px ${color}15, inset 0 0 ${size * 0.4}px ${color}10`,
-          }}
-        >
-          {/* Icon */}
-          {Icon
-            ? <Icon style={{ fontSize: iconSize, color, filter: `drop-shadow(0 0 8px ${color}90)` }} />
-            : <span style={{ fontSize: iconSize * 0.9, color, textShadow: `0 0 10px ${color}` }}>{skill.icon}</span>
-          }
-        </div>
-
-        {/* Name tooltip */}
-        <div
-          className="absolute top-full left-1/2 -translate-x-1/2 mt-2 whitespace-nowrap pointer-events-none
-                     font-mono text-[10px] font-bold tracking-widest uppercase
-                     opacity-0 group-hover:opacity-100 transition-all duration-200 translate-y-1 group-hover:translate-y-0"
-          style={{ color, textShadow: `0 0 8px ${color}` }}
-        >
-          {skill.name}
-        </div>
-      </motion.div>
-    </motion.a>
+      {/* Icon */}
+      <span className="flex-shrink-0 w-5 h-5 flex items-center justify-center">
+        {Icon
+          ? <Icon style={{ fontSize: 16, color, filter: `drop-shadow(0 0 4px ${color}80)` }} />
+          : <span style={{ fontSize: emoji.length > 1 ? 9 : 14, color, fontWeight: 800,
+              textShadow: `0 0 6px ${color}`, lineHeight: 1 }}>{emoji}</span>
+        }
+      </span>
+      {/* Name */}
+      <span className="font-mono text-xs text-gray-300 group-hover:text-white
+                       transition-colors duration-200 whitespace-nowrap">
+        {name}
+      </span>
+    </motion.div>
   )
+
+  return url
+    ? <a href={url} target="_blank" rel="noopener noreferrer">{inner}</a>
+    : inner
 }
+
+// ── Category Block ─────────────────────────────────────────────────────────
+const CategoryBlock = ({ label, color, items, skillsData }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 24 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.5 }}
+    className="p-5 border border-white/5 bg-white/[0.02] rounded-sm"
+    style={{ borderTop: `2px solid ${color}60` }}
+  >
+    {/* Category heading */}
+    <div className="flex items-center gap-2 mb-4">
+      <span className="w-2 h-2 rounded-full flex-shrink-0"
+            style={{ background: color, boxShadow: `0 0 6px ${color}` }} />
+      <span className="font-mono text-xs tracking-widest uppercase"
+            style={{ color }}>{label}</span>
+    </div>
+
+    {/* Pills */}
+    <div className="flex flex-wrap gap-2">
+      {items.map((name, i) => {
+        const sd = skillsData.find((s) => s.name === name)
+        return <SkillPill key={name} name={name} url={sd?.url || null} index={i} />
+      })}
+    </div>
+  </motion.div>
+)
 
 // ── Skills Section ─────────────────────────────────────────────────────────
 const Skills = () => {
   const ref    = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
-
-  // marquee: duplicate array for seamless loop
-  const marqueeItems = [...otherSkills, ...otherSkills]
+  const inView = useInView(ref, { once: true, margin: '-60px' })
 
   return (
-    <section id="skills" className="py-28 px-6 overflow-hidden" ref={ref}>
+    <section id="skills" className="py-28 px-6" ref={ref}>
       <div className="max-w-5xl mx-auto">
 
-        {/* ── Header ─────────────────────────────────── */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="text-center mb-6"
+          className="text-center mb-14"
         >
           <p className="section-subtitle">// Tools I Work With</p>
           <h2 className="section-title">
             Tech <span className="text-neon" style={{ textShadow: '0 0 20px #00ff8860' }}>Stack</span>
           </h2>
           <div className="w-16 h-px bg-neon mx-auto mt-4" style={{ boxShadow: '0 0 6px #00ff88' }} />
-          <p className="font-mono text-xs text-gray-600 mt-3 tracking-wider">
-            Hover to reveal · Click to open official docs
-          </p>
         </motion.div>
 
-        {/* ── Bubble cloud ────────────────────────────── */}
-        <div className="relative w-full" style={{ height: '500px' }}>
-          {/* Ambient background glow blob */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: 'radial-gradient(ellipse 60% 50% at 50% 50%, #00ff8806, transparent)',
-            }}
-          />
-
-          {/* Decorative micro-dots */}
-          {DOTS.map(({ left, top, s }, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full border border-neon/20 bg-neon/5"
-              style={{ left, top, width: s, height: s }}
-              animate={{ y: [0, -7, 0], opacity: [0.4, 0.8, 0.4] }}
-              transition={{ duration: 4 + i * 0.4, repeat: Infinity, ease: 'easeInOut', delay: i * 0.35 }}
+        {/* Category grid — 2 columns on md+, 1 on mobile */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {CATEGORIES.map(({ label, color, items }) => (
+            <CategoryBlock
+              key={label}
+              label={label}
+              color={color}
+              items={items}
+              skillsData={skills}
             />
           ))}
-
-          {/* Main skill bubbles */}
-          {skills.map((skill, i) => (
-            <Bubble key={skill.name} skill={skill} index={i} inView={inView} />
-          ))}
         </div>
-
-        {/* ── Also Familiar With — scrolling marquee ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 1.6 }}
-          className="mt-8"
-        >
-          {/* Section label */}
-          <div className="flex items-center gap-4 mb-5">
-            <div className="flex-1 h-px bg-neon/15" />
-            <span className="font-mono text-xs text-neon/60 tracking-widest uppercase whitespace-nowrap">
-              ALSO FAMILIAR WITH
-            </span>
-            <div className="flex-1 h-px bg-neon/15" />
-          </div>
-
-          {/* Marquee track */}
-          <div className="relative overflow-hidden" style={{ maskImage: 'linear-gradient(90deg, transparent, black 8%, black 92%, transparent)' }}>
-            <motion.div
-              className="flex gap-3 w-max"
-              animate={{ x: ['0%', '-50%'] }}
-              transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-            >
-              {marqueeItems.map((tech, i) => (
-                <span
-                  key={i}
-                  className="flex-shrink-0 px-4 py-2 border border-neon/25 text-gray-200 font-mono text-xs
-                             bg-neon/5 tracking-wider hover:border-neon hover:text-neon hover:bg-neon/10
-                             transition-all duration-200 cursor-default"
-                >
-                  {tech}
-                </span>
-              ))}
-            </motion.div>
-          </div>
-        </motion.div>
 
       </div>
     </section>
