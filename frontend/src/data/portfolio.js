@@ -97,7 +97,7 @@ export const projects = [
   {
     title: 'AI-Integrated Learning & Career Guidance Platform',
     description:
-      'A learning platform with interactive education modules, secure auth, personalized course onboarding, quiz dashboards with proctoring features, and Gemini AI integration for career guidance and PDF/text summarisation.',
+      'A learning pl"A scalable GST management platform enabling automated tax computation, real-time financial insights, and efficient invoice handling. Designed with a modern dashboard, secure backend APIs, and optimized performance for multi-user environments."atform with interactive education modules, secure auth, personalized course onboarding, quiz dashboards with proctoring features, and Gemini AI integration for career guidance and PDF/text summarisation.',
     tech: ['Express.js', 'React.js', 'MongoDB', 'Node.js', 'Tailwind CSS', 'Gemini API'],
     github: 'https://github.com/arinkaushal',   // ← replace with actual repo URL
     demo: '',
