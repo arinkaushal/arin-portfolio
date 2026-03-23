@@ -87,7 +87,7 @@ export const projects = [
   {
     title: 'GST Software Dashboard',
     description:
-      'A full-stack GST management system designed to streamline invoice generation, tax calculations, and financial tracking. Built with an interactive dashboard, real-time analytics, and role-based access control for efficient business operations. Features role-based user hierarchies, multi-user collaboration, real-time visual flow monitoring, step-level status tracking, and audit-ready execution logs.',
+      'A scalable GST management platform enabling automated tax computation, real-time financial insights, and efficient invoice handling. Designed with a modern dashboard, secure backend APIs, and optimized performance for multi-user environments.',
     tech: ['Express.js', 'React.js', 'MongoDB', 'Node.js', 'Tailwind CSS', 'React Flow', 'WebSockets'],
     github: 'https://github.com/arinkaushal/GSTsoftware',   // ← replace with actual repo URL
     demo: 'https://share.google/d23oURzuUR8p9kPTC',                                    // ← add live demo URL when deployed
@@ -97,7 +97,7 @@ export const projects = [
   {
     title: 'AI-Integrated Learning & Career Guidance Platform',
     description:
-      'A learning pl"A scalable GST management platform enabling automated tax computation, real-time financial insights, and efficient invoice handling. Designed with a modern dashboard, secure backend APIs, and optimized performance for multi-user environments."atform with interactive education modules, secure auth, personalized course onboarding, quiz dashboards with proctoring features, and Gemini AI integration for career guidance and PDF/text summarisation.',
+      'A learning platform with interactive education modules, secure auth, personalized course onboarding, quiz dashboards with proctoring features, and Gemini AI integration for career guidance and PDF/text summarisation.',
     tech: ['Express.js', 'React.js', 'MongoDB', 'Node.js', 'Tailwind CSS', 'Gemini API'],
     github: 'https://github.com/arinkaushal',   // ← replace with actual repo URL
     demo: '',
