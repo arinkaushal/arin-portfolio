@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiMenu, FiX } from 'react-icons/fi'
 import { TbTerminal2 } from 'react-icons/tb'
@@ -13,21 +13,62 @@ const navItems = [
   { label: 'Contact', href: '#contact' },
 ]
 
+const sectionIds = navItems.map(({ href }) => href.replace('#', ''))
+
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [active, setActive] = useState('Home')
+  const clickedRef = useRef(false)
 
+  // Scroll background effect
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // IntersectionObserver — update active link as sections scroll into view
+  useEffect(() => {
+    const observers = []
+    const visibleMap = {}
+
+    const pickActive = () => {
+      // Find the topmost visible section
+      for (const id of sectionIds) {
+        if (visibleMap[id]) {
+          const label = navItems.find((n) => n.href === `#${id}`)?.label
+          if (label) setActive(label)
+          return
+        }
+      }
+    }
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id)
+      if (!el) return
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          visibleMap[id] = entry.isIntersecting
+          // Don't override while a click-scroll is animating
+          if (!clickedRef.current) pickActive()
+        },
+        { threshold: 0.25 }
+      )
+      obs.observe(el)
+      observers.push(obs)
+    })
+
+    return () => observers.forEach((o) => o.disconnect())
+  }, [])
+
   const handleNavClick = (label, href) => {
     setActive(label)
     setMenuOpen(false)
+    clickedRef.current = true
     document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+    // Re-enable observer updates after scroll animation (~800 ms)
+    setTimeout(() => { clickedRef.current = false }, 900)
   }
 
   return (

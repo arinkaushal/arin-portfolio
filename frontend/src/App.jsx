@@ -34,7 +34,11 @@ function App() {
       {/* ── Loading screen (shown until loaded) ──────────── */}
       {!loaded && <LoadingScreen onDone={handleLoadDone} />}
 
-      <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
+      {/* Navbar sits at the top level — no transformed/overflow ancestor
+          so position:fixed works correctly across all browsers */}
+      <Navbar />
+
+      <div className="min-h-screen bg-black text-white">
         {/* Cursor-reactive animated particle canvas */}
         <ParticleBackground />
 
@@ -47,7 +51,6 @@ function App() {
 
         {/* Main content */}
         <div className="relative z-10">
-          <Navbar />
           <main>
             <Hero />
             <About />

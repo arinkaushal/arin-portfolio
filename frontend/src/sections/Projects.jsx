@@ -18,14 +18,16 @@ const techIcons = {
 
 // ── Project features (add matching features in portfolio.js later) ────────
 const projectMeta = {
-  'Manufacturing Execution System': {
+  'GST Software Dashboard': {
     features: [
-      'Role-based access control with 3 permission tiers',
-      'Real-time WebSocket updates for live process monitoring',
-      'Visual process-flow builder using React Flow',
-      'Multi-user concurrent editing with conflict resolution',
-      'Audit-ready execution logs with export',
-      'Step-level status tracking dashboard',
+      'Role-based access control with Admin and User permissions',
+      'Dynamic invoice generation with automated GST computation',
+      'Real-time dashboard with monthly revenue and tax insights',
+      'Integrated charts for visual financial analysis',
+      'Persistent data storage with secure backend APIs',
+      'Exportable invoice reports for record keeping',
+      'Optimized UI/UX for fast and responsive performance',
+      'Scalable architecture for handling multiple users'
     ],
     color: '#00ff88',
   },

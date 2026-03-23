@@ -85,12 +85,12 @@ export const otherSkills = [
 // ──────────────────────────────────────────────
 export const projects = [
   {
-    title: 'Manufacturing Execution System',
+    title: 'GST Software Dashboard',
     description:
-      'A process-flow-centric MES built while leading a 3-member team. Features role-based user hierarchies, multi-user collaboration, real-time visual flow monitoring, step-level status tracking, and audit-ready execution logs.',
+      'A full-stack GST management system designed to streamline invoice generation, tax calculations, and financial tracking. Built with an interactive dashboard, real-time analytics, and role-based access control for efficient business operations. Features role-based user hierarchies, multi-user collaboration, real-time visual flow monitoring, step-level status tracking, and audit-ready execution logs.',
     tech: ['Express.js', 'React.js', 'MongoDB', 'Node.js', 'Tailwind CSS', 'React Flow', 'WebSockets'],
-    github: 'https://github.com/arinkaushal',   // ← replace with actual repo URL
-    demo: '',                                    // ← add live demo URL when deployed
+    github: 'https://github.com/arinkaushal/GSTsoftware',   // ← replace with actual repo URL
+    demo: 'https://share.google/d23oURzuUR8p9kPTC',                                    // ← add live demo URL when deployed
     period: 'Dec 2025',
     status: 'Live',
   },
